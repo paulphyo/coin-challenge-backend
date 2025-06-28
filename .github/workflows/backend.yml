@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  PROJECT_DIR: 2025_PhyoNyiNyiPaing
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -19,11 +22,11 @@ jobs:
           terraform_version: 1.5.7
 
       - name: Terraform Init
-        working-directory: terraform
+        working-directory: ${{ env.PROJECT_DIR }}/terraform
         run: terraform init
 
       - name: Terraform Apply (auto-approve)
-        working-directory: terraform
+        working-directory: ${{ env.PROJECT_DIR }}/terraform
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -38,8 +41,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./Dockerfile
+          context: ${{ env.PROJECT_DIR }}
+          file: ${{ env.PROJECT_DIR }}/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/coin-challenge-backend:latest
 
@@ -51,4 +54,4 @@ jobs:
       - name: Run Ansible to deploy container
         run: |
           sudo apt-get update && sudo apt-get install -y ansible
-          ansible-playbook ansible/playbook.yml -i "${{ secrets.EC2_HOST }}," --private-key key.pem -u ${{ secrets.EC2_USER }} -e "docker_username=${{ secrets.DOCKERHUB_USERNAME }}"
+          ansible-playbook ${{ env.PROJECT_DIR }}/ansible/playbook.yml -i "${{ secrets.EC2_HOST }}," --private-key key.pem -u ${{ secrets.EC2_USER }} -e "docker_username=${{ secrets.DOCKERHUB_USERNAME }}"
