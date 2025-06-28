@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dropwizard.version>4.0.14</dropwizard.version>
-        <mainClass>com.paulphyo.2025_PhyoNyiNyiPaingApplication</mainClass>
+        <mainClass>com.paulphyo.CoinChangeApplication</mainClass>
     </properties>
 
     <dependencyManagement>
@@ -145,8 +145,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>16</source>
+                    <target>16</target>
                 </configuration>
             </plugin>
             <plugin>
