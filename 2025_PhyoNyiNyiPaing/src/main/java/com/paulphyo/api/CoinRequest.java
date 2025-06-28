@@ -19,14 +19,14 @@ import java.util.List;
  * </pre>
  */
 public class CoinRequest {
-    private float targetAmount;
+    private double targetAmount;
     private List<Double> coinDenominations;
 
-    public float getTargetAmount() {
+    public double getTargetAmount() {
         return targetAmount;
     }
 
-    public void setTargetAmount(float targetAmount) {
+    public void setTargetAmount(double targetAmount) {
         this.targetAmount = targetAmount;
     }
 
