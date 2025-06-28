@@ -1,4 +1,4 @@
-- hosts: backend
+- hosts: all
   become: yes
   tasks:
     - name: Pull Docker image from Docker Hub
@@ -8,4 +8,4 @@
       shell: docker rm -f backend || true
 
     - name: Run the new container
-      shell: docker run -d --name backend -p 80:8080 {{ docker_username }}/coin-challenge-backend:latest
+      shell: docker run -d --name backend -p 8080:8080 {{ docker_username }}/coin-challenge-backend:latest
