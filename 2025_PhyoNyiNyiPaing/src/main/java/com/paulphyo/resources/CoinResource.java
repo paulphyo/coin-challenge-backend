@@ -3,9 +3,9 @@ package com.paulphyo.resources;
 import com.paulphyo.api.CoinRequest;
 import com.paulphyo.core.service.CoinService;
 
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -43,28 +43,10 @@ public class CoinResource {
      */
     @POST
     @Path("/min")
-    public List<Double> getMinimumCoins(CoinRequest request) {
-        validateRequest(request);
-
+    public List<Double> getMinimumCoins(@Valid CoinRequest request) {
         return coinChangeService.getMinimumCoinChange(
                 request.getTargetAmount(),
                 request.getCoinDenominations()
         );
-    }
-
-    /* TODO: change to custom exceptions later */
-    /**
-     * Validates the incoming coin change request.
-     *
-     * @param request the request to validate
-     * @throws WebApplicationException if the request is null
-     */
-    private void validateRequest(CoinRequest request) {
-        if (request == null) {
-            throw new WebApplicationException(
-                    "Request cannot be null",
-                    Response.Status.BAD_REQUEST
-            );
-        }
     }
 }
