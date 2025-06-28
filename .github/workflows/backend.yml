@@ -33,11 +33,12 @@ jobs:
         working-directory: ${{ env.PROJECT_DIR }}/terraform
 
         run: terraform apply -auto-approve
-
       - name: Get EC2 Public IP from Terraform output
         id: tfoutput
         working-directory: ${{ env.PROJECT_DIR }}/terraform
-        run: echo "EC2_IP=$(terraform output -raw ec2_public_ip)" >> $GITHUB_ENV
+        run: |
+          EC2_IP=$(terraform output -raw ec2_public_ip)
+          echo "EC2_IP=$EC2_IP" >> $GITHUB_ENV
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
