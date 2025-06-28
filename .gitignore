@@ -1,53 +1,11 @@
-# Compiled class files
-**/*.class
+/2025_PhyoNyiNyiPaing/target/
+/2025_PhyoNyiNyiPaing/*.iml
+/2025_PhyoNyiNyiPaing/.idea/
+/2025_PhyoNyiNyiPaing/.classpath
+/2025_PhyoNyiNyiPaing/.project
+/2025_PhyoNyiNyiPaing/.settings/
+/2025_PhyoNyiNyiPaing/out/
 
-# Log files
-**/*.log
-
-# BlueJ files
-**/*.ctxt
-
-# Mobile Tools for Java (J2ME)
-**/.mtj.tmp/
-
-# Package Files #
-**/*.jar
-**/*.war
-**/*.nar
-**/*.ear
-**/*.zip
-**/*.tar.gz
-**/*.rar
-
-# JVM crash logs
-**/hs_err_pid*
-
-# Maven target folders (recursive)
-**/target/
-
-# Gradle build folders
-**/build/
-
-# Eclipse project files
-**/.project
-**/.classpath
-**/.settings/
-
-# IntelliJ IDEA
-**/.idea/
-**/*.iml
-**/*.iws
-**/out/
-
-# NetBeans
-**/nbproject/private/
-**/nbbuild/
-**/dist/
-**/nbdist/
-**/.nb-gradle/
-
-# VS Code
-**/.vscode/
-
-# macOS system files
-**/.DS_Store
+# Ignore OS junk
+.DS_Store
+Thumbs.db
