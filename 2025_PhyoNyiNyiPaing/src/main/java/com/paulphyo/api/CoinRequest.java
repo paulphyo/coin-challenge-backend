@@ -1,5 +1,6 @@
 package com.paulphyo.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
@@ -19,21 +20,36 @@ import java.util.List;
  * </pre>
  */
 public class CoinRequest {
+
     private double targetAmount;
     private List<Double> coinDenominations;
 
+    // Default constructor for Jackson
+    public CoinRequest() {
+    }
+
+    // Constructor for unit tests
+    public CoinRequest(double targetAmount, List<Double> coinDenominations) {
+        this.targetAmount = targetAmount;
+        this.coinDenominations = coinDenominations;
+    }
+
+    @JsonProperty
     public double getTargetAmount() {
         return targetAmount;
     }
 
+    @JsonProperty
     public void setTargetAmount(double targetAmount) {
         this.targetAmount = targetAmount;
     }
 
+    @JsonProperty
     public List<Double> getCoinDenominations() {
         return coinDenominations;
     }
 
+    @JsonProperty
     public void setCoinDenominations(List<Double> coinDenominations) {
         this.coinDenominations = coinDenominations;
     }
