@@ -1,45 +1,19 @@
 provider "aws" {
-  region = "ap-southeast-1"
+  region = var.aws_region
 }
 
-resource "aws_key_pair" "deployer_key" {
-  key_name   = "deployer-key"
-  public_key = var.public_key
-}
-
-resource "aws_security_group" "backend_sg" {
-  name        = "backend-sg"
-  description = "Allow SSH and app port"
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+terraform {
+  backend "s3" {
+    bucket = var.s3_bucket_name
+    key    = "terraform/terraform.tfstate"
+    region = var.aws_region
+    encrypt = true
   }
 }
-
-# Create EC2 instance
 resource "aws_instance" "backend" {
-  ami           = "ami-02c7683e4ca3ebf58" # Ubuntu 24.04 in ap-southeast-1 
-  instance_type = "t2.micro"
-  key_name      = aws_key_pair.deployer_key.key_name
-
-  vpc_security_group_ids = [aws_security_group.backend_sg.id]
+  ami           = "ami-02c7683e4ca3ebf58"  # Ubuntu 24.04 in ap-southeast-1
+  instance_type = var.instance_type
+  key_name      = var.key_name
 
   user_data = <<-EOF
               #!/bin/bash
@@ -52,6 +26,10 @@ resource "aws_instance" "backend" {
 
   tags = {
     Name = "coin-challenge-backend"
+  }
+  
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
