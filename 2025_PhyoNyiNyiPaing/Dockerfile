@@ -13,15 +13,18 @@ RUN --mount=type=cache,target=/root/.m2 ./mvnw dependency:go-offline -DskipTests
 # Stage 2: package
 FROM deps as package
 
-WORKDIR /build
-
-COPY coin-challenge-backend/ ./coin-challenge-backend/
-
 WORKDIR /build/coin-challenge-backend
 
+# Copy source files, but not mvnw or .mvn again to avoid overwriting permissions
+COPY coin-challenge-backend/src ./src
+COPY coin-challenge-backend/pom.xml ./pom.xml
+
+# Ensure mvnw is executable again (some weird bug)
+RUN chmod +x ../mvnw
+
 RUN --mount=type=cache,target=/root/.m2 \
-    ./mvnw package -DskipTests && \
-    mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
+    ../mvnw package -DskipTests && \
+    mv target/$(../mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(../mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
 
 # Stage 3: final runtime image
 FROM eclipse-temurin:17-jre-jammy AS final
