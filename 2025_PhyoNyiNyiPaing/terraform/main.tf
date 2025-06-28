@@ -10,10 +10,16 @@ terraform {
     encrypt = true
   }
 }
+resource "aws_key_pair" "deployer_key" {
+  key_name   = var.key_name
+  public_key = var.public_key
+}
+
 resource "aws_instance" "backend" {
   ami           = "ami-02c7683e4ca3ebf58"  # Ubuntu 24.04 in ap-southeast-1
   instance_type = var.instance_type
-  key_name      = var.key_name
+  key_name = aws_key_pair.deployer_key.key_name
+
 
   user_data = <<-EOF
               #!/bin/bash
