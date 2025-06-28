@@ -41,7 +41,8 @@ jobs:
         id: tfoutput
         working-directory: ${{ env.PROJECT_DIR }}/terraform
         run: |
-          EC2_IP=$(terraform output -raw ec2_public_ip)
+          terraform output ec2_public_ip
+          EC2_IP=$(terraform output -raw ec2_public_ip | tr -d '\r\n')
           echo "EC2_IP=$EC2_IP" >> $GITHUB_ENV
 
       - name: Login to Docker Hub
