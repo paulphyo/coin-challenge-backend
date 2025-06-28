@@ -61,4 +61,49 @@ class CoinResourceTest {
         assertThat(jsonResponse).isEqualTo(expectedJsonResponse);
         verify(COIN_SERVICE).getMinimumCoinChange(requestAmount, validRequest.getCoinDenominations());
     }
+
+    @Test
+    @DisplayName("Returns Validation Error 422 when target amount is negative")
+    void returnsValidationError_whenTargetAmountIsNegative() {
+        validRequest.setTargetAmount(-1.0);
+
+        Response response = EXT.target("/coins/min")
+                .request()
+                .post(Entity.json(validRequest));
+
+        assertThat(response.getStatus()).isEqualTo(422);
+        verifyNoInteractions(COIN_SERVICE);
+    }
+
+    @Test
+    @DisplayName("Returns Validation Error 422 when coin denominations list is empty")
+    void returnsValidationError_whenCoinDenominationsEmpty() {
+        // Given
+        validRequest.setCoinDenominations(List.of());
+
+        // When
+        Response response = EXT.target("/coins/min")
+                .request()
+                .post(Entity.json(validRequest));
+
+        // Then
+        assertThat(response.getStatus()).isEqualTo(422);
+        verifyNoInteractions(COIN_SERVICE);
+    }
+
+    @Test
+    @DisplayName("Returns empty list when target amount is zero")
+    void returnsEmptyList_whenTargetAmountZero() {
+        validRequest.setTargetAmount(0.0);
+
+        when(COIN_SERVICE.getMinimumCoinChange(0.0, validRequest.getCoinDenominations()))
+                .thenReturn(List.of());
+
+        String jsonResponse = EXT.target("/coins/min")
+                .request()
+                .post(Entity.json(validRequest), String.class);
+
+        assertThat(jsonResponse).isEqualTo("[]");
+        verify(COIN_SERVICE).getMinimumCoinChange(0.0, validRequest.getCoinDenominations());
+    }
 }

@@ -1,6 +1,11 @@
 package com.paulphyo.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 /**
@@ -21,7 +26,12 @@ import java.util.List;
  */
 public class CoinRequest {
 
+    @Min(value = 0, message = "targetAmount must be >= 0")
+    @Max(value = 10000, message = "targetAmount must be <= 10000")
     private double targetAmount;
+
+    @NotNull(message = "coinDenominations cannot be null")
+    @NotEmpty(message = "coinDenominations cannot be empty")
     private List<Double> coinDenominations;
 
     // Default constructor for Jackson

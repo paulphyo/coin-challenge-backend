@@ -31,24 +31,8 @@ public class CoinService {
      *         or if exact change cannot be calculated
      */
     public List<Double> getMinimumCoinChange(double targetAmount, List<Double> denominations) {
-        validateTargetAmount(targetAmount);
         validateCoinDenominations(denominations);
         return computeGreedyChange(targetAmount, denominations);
-    }
-
-    /**
-     * Validates that the target amount is within the allowed range.
-     *
-     * @param amount The target amount to validate
-     * @throws WebApplicationException if the amount is below MIN_AMOUNT or above MAX_AMOUNT
-     */
-    private void validateTargetAmount(double amount) {
-        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT) {
-            throw new WebApplicationException(
-                    String.format("Target amount must be between %.2f and %.2f", MIN_AMOUNT, MAX_AMOUNT),
-                    Response.Status.BAD_REQUEST
-            );
-        }
     }
 
     /**
@@ -58,11 +42,6 @@ public class CoinService {
      * @throws WebApplicationException if the list is null, empty, or contains invalid values
      */
     private void validateCoinDenominations(List<Double> denominations) {
-        if (denominations == null || denominations.isEmpty()) {
-            throw new WebApplicationException("Coin denominations cannot be null or empty",
-                    Response.Status.BAD_REQUEST);
-        }
-
         for (Double denomination : denominations) {
             if (denomination == null) {
                 throw new WebApplicationException("Denomination cannot be null",
