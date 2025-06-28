@@ -1,5 +1,6 @@
 package com.paulphyo;
 
+import com.paulphyo.resources.CoinResource;
 import io.dropwizard.core.Application;
 import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
@@ -21,9 +22,7 @@ public class CoinChangeApplication extends Application<CoinChangeConfiguration> 
     }
 
     @Override
-    public void run(final CoinChangeConfiguration configuration,
-                    final Environment environment) {
-        // TODO: implement application
+    public void run(CoinChangeConfiguration configuration, Environment environment) {
+        environment.jersey().register(new CoinResource());
     }
-
 }
