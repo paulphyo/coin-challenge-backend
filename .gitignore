@@ -1,10 +1,10 @@
-/2025_PhyoNyiNyiPaing/target/
-/2025_PhyoNyiNyiPaing/*.iml
-/2025_PhyoNyiNyiPaing/.idea/
-/2025_PhyoNyiNyiPaing/.classpath
-/2025_PhyoNyiNyiPaing/.project
-/2025_PhyoNyiNyiPaing/.settings/
-/2025_PhyoNyiNyiPaing/out/
+**/target/
+**/*.iml
+**/.idea/
+**/.classpath
+**/.project
+**/.settings/
+**/out/
 
 # Ignore OS junk
 .DS_Store

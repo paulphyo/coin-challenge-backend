@@ -7,11 +7,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.paulphyo</groupId>
-    <artifactId>2025_PhyoNyiNyiPaing</artifactId>
+    <artifactId>coin-challenge-backend</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>2025_PhyoNyiNyiPaing</name>
+    <name>coin-challenge-backend</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
