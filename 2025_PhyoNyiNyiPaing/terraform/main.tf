@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_key_pair" "deployer_key" {
   key_name   = "deployer-key"
-  public_key = file("~/downloads/coin_challenge.pub") 
+  public_key = var.public_key
 }
 
 resource "aws_security_group" "backend_sg" {
