@@ -6,7 +6,7 @@ terraform {
   backend "s3" {
     bucket = "coin-backend-s3"
     key    = "terraform/terraform.tfstate"
-    region = "ap-souteast-1"
+    region = "ap-southeast-1"
     encrypt = true
   }
 }
