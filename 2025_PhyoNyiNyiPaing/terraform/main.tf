@@ -4,9 +4,9 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = var.s3_bucket_name
+    bucket = "coin-backend-s3"
     key    = "terraform/terraform.tfstate"
-    region = var.aws_region
+    region = "ap-souteast-1"
     encrypt = true
   }
 }
