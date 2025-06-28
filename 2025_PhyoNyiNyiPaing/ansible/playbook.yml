@@ -1,0 +1,11 @@
+- hosts: backend
+  become: yes
+  tasks:
+    - name: Pull Docker image from Docker Hub
+      shell: docker pull {{ docker_username }}/coin-challenge-backend:latest
+
+    - name: Stop and remove existing container
+      shell: docker rm -f backend || true
+
+    - name: Run the new container
+      shell: docker run -d --name backend -p 80:8080 {{ docker_username }}/coin-challenge-backend:latest

@@ -9,3 +9,7 @@
 # Ignore OS junk
 .DS_Store
 Thumbs.db
+
+**/terraform/.terraform/
+**/terraform/terraform.tfstate
+**/terraform/terraform.tfstate.backup
