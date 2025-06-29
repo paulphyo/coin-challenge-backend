@@ -37,6 +37,7 @@ jobs:
 
       - name: Get Terraform Output (Single IP)
         working-directory: ${{ env.PROJECT_DIR }}/terraform
+        id: get-ip
         run: |
           EC2_IP=$(terraform output -raw ec2_public_ip)
           echo "Instance IP: $EC2_IP"
@@ -61,12 +62,15 @@ jobs:
           echo "${{ secrets.EC2_SSH_KEY }}" > key.pem
           chmod 400 key.pem
 
+      - name: Add server to known_hosts
+        run: ssh-keyscan ${{ steps.get-ip.outputs.EC2_IP }} >> ~/.ssh/known_hosts
+
       - name: Run Ansible to deploy container
         run: |
           sudo apt-get update && sudo apt-get install -y ansible
           echo "Instance IP: $EC2_IP"
           ansible-playbook ${{ env.PROJECT_DIR }}/ansible/playbook.yml \
-            -i "$EC2_IP," \
+            -i "${{ steps.get-ip.outputs.EC2_IP }}," \
             --private-key key.pem \
             -u ${{ secrets.EC2_USER }} \
             -e "docker_username=${{ secrets.DOCKERHUB_USERNAME }}"
