@@ -36,7 +36,6 @@ jobs:
         run: terraform apply -auto-approve
 
       - name: Get Terraform Output (Single IP)
-        id: tf_output
         working-directory: ${{ env.PROJECT_DIR }}/terraform
         run: |
           EC2_IP=$(terraform output -raw ec2_public_ip)
@@ -64,7 +63,6 @@ jobs:
 
       - name: Run Ansible to deploy container
         run: |
-          EC2_IP=${{ steps.tf_output.outputs.ec2_ip }}
           sudo apt-get update && sudo apt-get install -y ansible
           ansible-playbook ${{ env.PROJECT_DIR }}/ansible/playbook.yml \
             -i "$EC2_IP," \
