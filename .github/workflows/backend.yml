@@ -37,18 +37,6 @@ jobs:
           TF_VAR_public_key: ${{ secrets.EC2_PUBLIC_KEY }}
         run: terraform apply -auto-approve
 
-      - name: Get EC2 Public IP from Terraform output
-        id: tfoutput
-        working-directory: ${{ env.PROJECT_DIR }}/terraform
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          TF_VAR_public_key: ${{ secrets.EC2_PUBLIC_KEY }}
-
-        run: |
-          EC2_IP=$(terraform output -json | jq -r '.ec2_public_ip.value')
-          echo "EC2_IP=$EC2_IP" >> $GITHUB_ENV
-
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -70,6 +58,7 @@ jobs:
 
       - name: Run Ansible to deploy container
         run: |
+          EC2_IP=$(terraform output -raw ec2_public_ip)
           sudo apt-get update && sudo apt-get install -y ansible
           ansible-playbook ${{ env.PROJECT_DIR }}/ansible/playbook.yml \
             -i "$EC2_IP," \
